@@ -132,7 +132,7 @@ function Navbar(
           </a>
         )}
 
-          <VotesCounter />
+        <VotesCounter />
 
         {!buttons?.hideCartButton && (
           <div class="flex items-center text-xs font-thin">

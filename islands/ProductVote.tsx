@@ -67,13 +67,13 @@ export default function ProductVote({ productID }: Props) {
         transition: Bounce,
       });
 
-    //   sendEvent({
-    //     name: "post_score",
-    //     params: {
-    //       score: votes.product,
-    //       character: productID,
-    //     },
-    //   });
+      //   sendEvent({
+      //     name: "post_score",
+      //     params: {
+      //       score: votes.product,
+      //       character: productID,
+      //     },
+      //   });
     }
   };
 
