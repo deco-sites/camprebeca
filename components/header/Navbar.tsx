@@ -14,6 +14,7 @@ import Image from "apps/website/components/Image.tsx";
 import NavItem from "./NavItem.tsx";
 import { navbarHeight } from "./constants.ts";
 import { Buttons, Logo } from "../../components/header/Header.tsx";
+import VotesCounter from "deco-sites/camprebeca/islands/Header/VotesCounter.tsx";
 
 // Make it sure to render it on the server only. DO NOT render it on an island
 function Navbar(
@@ -130,6 +131,9 @@ function Navbar(
             WISHLIST
           </a>
         )}
+
+          <VotesCounter />
+
         {!buttons?.hideCartButton && (
           <div class="flex items-center text-xs font-thin">
             {platform === "vtex" && <CartButtonVTEX />}
