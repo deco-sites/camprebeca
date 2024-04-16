@@ -41,7 +41,7 @@ export const HorizontalProductCard = (
           >
             <div class="text-base-content lg:text-sm font-light">
               {formatPrice(price)}
-            </div> 
+            </div>
           </div>
         </div>
       </div>

@@ -19,6 +19,6 @@ export default async function loader(
       },
     },
   );
-  
+
   return res.json();
 }
