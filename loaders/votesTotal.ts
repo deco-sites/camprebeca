@@ -1,13 +1,9 @@
-import { FnContext } from "deco/types.ts";
-
 export interface VotesTotal {
   total: number;
 }
 
 export default async function votesTotal(
-  _props: unknown,
-  _req: Request,
-  _ctx: FnContext,
+  _props: VotesTotal,
 ): Promise<VotesTotal> {
   const res = await fetch("https://camp-api.deco.cx/events", {
     headers: {
@@ -15,7 +11,5 @@ export default async function votesTotal(
     },
   });
 
-  const votesTotal = (await res.json()) as VotesTotal;
-
-  return votesTotal;
+  return res.json();
 }

@@ -1,24 +1,24 @@
-import { FnContext } from "deco/types.ts";
+import { AppContext } from "deco-sites/camprebeca/apps/site.ts";
 
 interface VotesProduct {
-  productTotal: number;
+  productId: string;
 }
 
 export default async function loader(
-  props: { productID: string },
+  props: VotesProduct,
   _req: Request,
-  _ctx: FnContext,
-): Promise<VotesProduct> {
+  _ctx: AppContext,
+) {
   const res = await fetch(
-    `https://camp-api.deco.cx/event/${props.productID}`,
+    `https://camp-api.deco.cx/event/${props.productId}`,
     {
+      method: "GET",
       headers: {
-        "x-api-key": "camp-rebeca",
+        "Content-Type": "application/json",
+        "x-api-key": "camprebeca",
       },
     },
   );
-
-  const votesTotalProduct = (await res.json()) as VotesProduct;
-
-  return votesTotalProduct;
+  
+  return res.json();
 }

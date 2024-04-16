@@ -1,24 +1,22 @@
-interface Vote {
-  total: number;
+interface Props {
+  productId: string;
+}
+
+interface VoteResult {
   product: number;
+  total: number;
 }
 
 export default async function action(
-  productId: string,
-  _req: Request,
-  _ctx: unknown,
-): Promise<Vote> {
+  props: Props,
+): Promise<VoteResult> {
   const res = await fetch("https://camp-api.deco.cx/event", {
+    method: "POST",
     headers: {
       "x-api-key": "camprebeca",
     },
-    body: JSON.stringify({
-      productId: productId,
-    }),
-    method: "POST",
+    body: JSON.stringify(props),
   });
 
-  const votesTotal = (await res.json()) as Vote;
-
-  return votesTotal;
-}
+  return res.json();
+};

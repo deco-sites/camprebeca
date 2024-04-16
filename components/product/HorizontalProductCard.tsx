@@ -4,6 +4,7 @@ import Image from "apps/website/components/Image.tsx";
 import ProductVote from "deco-sites/camprebeca/islands/ProductVote.tsx";
 import { formatPrice } from "../../sdk/format.ts";
 import { asset } from "$fresh/runtime.ts";
+import { useOffer } from "deco-sites/camprebeca/sdk/useOffer.ts";
 
 interface Props {
   product: Product;
@@ -15,6 +16,7 @@ const HEIGHT = 279;
 export const HorizontalProductCard = (
   { product }: Props,
 ) => {
+  const { price = 0 } = useOffer(product.offers);
   return (
     <div class="flex gap-2 sm:gap-4 md:gap-8 relative w-full">
       <Image
@@ -37,21 +39,14 @@ export const HorizontalProductCard = (
           <div
             class={`flex flex-col gap-0 justify-center}`}
           >
-            {
-              /* <div
-              class={`line-through text-base-300 text-xs font-light`}
-            >
-              {formatPrice(price)}
-            </div>
             <div class="text-base-content lg:text-sm font-light">
               {formatPrice(price)}
-            </div> */
-            }
+            </div> 
           </div>
         </div>
       </div>
       <div class="flex flex-col self-center bg-secondary rounded-btn p-2">
-        <ProductVote productID={product.productID} />
+        <ProductVote productId={product.productID} />
         <AddToCartButtonVTEX
           eventParams={{
             items: [{

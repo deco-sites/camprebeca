@@ -1,63 +1,51 @@
 import { signal, useSignal, useSignalEffect } from "@preact/signals";
 
-import {
-  CheckVote,
-  GrayVote,
-} from "deco-sites/camprebeca/static/image/votesIcon.tsx";
 import { IS_BROWSER } from "$fresh/runtime.ts";
+import { useEffect } from "preact/hooks";
 import { invoke } from "deco-sites/camprebeca/runtime.ts";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { sendEvent } from "deco-sites/camprebeca/sdk/analytics.tsx";
+import { CheckVote, GrayVote } from "deco-sites/camprebeca/static/image/icons-vote.tsx";
 
 export const sumVotes = signal<number>(0);
 
 export interface Props {
-  productID: string;
+  productId: string;
 }
 
-export default function ProductVote({ productID }: Props) {
-  const votesInfo = {
-    hasVoted: useSignal(false),
-    productVotes: useSignal(0),
-  };
-
-  let votes = {
-    total: 0,
-    product: 0,
-  };
+export default function ProductVote({ productId }: Props) {
+  const hasVoted = useSignal(false)
+  const productVotes = useSignal(0)
 
   // deno-lint-ignore no-explicit-any
-  const VoteNotification = ToastContainer as any;
+  const Toast = ToastContainer as any;
 
-  const getProductVotes = async (productId: string) => {
-    const votes = await invoke[
-      "deco-sites/camprebeca"
-    ].loaders.votesProduct({ productID });
-    votesInfo.productVotes.value = votes.productTotal;
-  };
+  async function teste() {
+    const votesTotalProduct = await invoke["deco-sites/camprebeca"].loaders.votesProduct({ productId })
+    console.log("TESTE" + votesTotalProduct.product);
+    
+  }
 
   useSignalEffect(() => {
-    const asyncFunction = () => {
-      setInterval(async () => {
-        await getProductVotes(productID);
-      }, 30000);
+    teste()
+    const getVotes = async () => {
+      const votesTotalProduct = await invoke["deco-sites/camprebeca"].loaders.votesProduct({ productId })
+      productVotes.value = votesTotalProduct.product;
+      const votesTotal = await invoke["deco-sites/camprebeca"].loaders.votesTotal();
+      sumVotes.value = votesTotal.total;
     };
-    if (IS_BROWSER) {
-      asyncFunction();
-    }
+    getVotes();
+    
+    setInterval(getVotes, 30000);
   });
+  
 
   const addVote = async () => {
-    if (votesInfo.hasVoted.value !== true) {
-      if (IS_BROWSER) {
-        votesInfo.hasVoted.value = true;
-        votes = await invoke["deco-sites/camprebeca"].actions.sendVote(
-          productID,
-        );
-      }
-
-      sumVotes.value = votes.total;
-      votesInfo.productVotes.value = votes.product;
+    if (hasVoted.value !== true) {
+        hasVoted.value = true;
+        const vote = await invoke["deco-sites/camprebeca"].actions.sendVote({ productId });
+        sumVotes.value = vote.total;
+        productVotes.value = vote.product;     
 
       toast.success("Obrigado por votar", {
         position: "top-right",
@@ -67,23 +55,23 @@ export default function ProductVote({ productID }: Props) {
         transition: Bounce,
       });
 
-      //   sendEvent({
-      //     name: "post_score",
-      //     params: {
-      //       score: votes.product,
-      //       character: productID,
-      //     },
-      //   });
+      sendEvent({
+        name: "post_score",
+        params: {
+          score: vote.product,
+          character: productId,
+        },
+      });
     }
   };
 
   return (
     <div>
       <button class="btn" onClick={addVote}>
-        {!votesInfo.hasVoted.value ? <GrayVote /> : <CheckVote />}
+        {!hasVoted.value ? <GrayVote /> : <CheckVote />}
       </button>
-      <p>Total de votos: {votesInfo.productVotes.value}</p>
-      <VoteNotification />
+      <p>Total de votos: {productVotes.value}</p>
+      <Toast />
     </div>
   );
 }
