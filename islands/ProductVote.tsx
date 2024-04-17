@@ -74,6 +74,7 @@ export default function ProductVote({ productId }: Props) {
       <p class={"text-cold"}>Total de votos: {productVotes.value}</p>
       <ToastStyle />
       <Toast />
+      
     </div>
   );
 }
