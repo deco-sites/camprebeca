@@ -67,7 +67,9 @@ export default function ProductVote({ productId }: Props) {
   return (
     <div>
       <button class="btn" onClick={addVote}>
-        {!hasVoted.value ? <Icon id="MoodSmile" width={24} height={24} /> : <Icon id="MoodCheck" width={24} height={24} />}
+        {!hasVoted.value
+          ? <Icon id="MoodSmile" width={24} height={24} />
+          : <Icon id="MoodCheck" width={24} height={24} />}
       </button>
       <p class={"text-cold"}>Total de votos: {productVotes.value}</p>
       <ToastStyle />
