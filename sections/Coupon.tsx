@@ -15,7 +15,7 @@ export default function Coupon(props: Props) {
           disabled
         />
         <p
-          class={`text-sm leading-5 text-base-100 piledup`}
+          class={`text-sm leading-5 text-black`}
         >
           {props.description}
         </p>

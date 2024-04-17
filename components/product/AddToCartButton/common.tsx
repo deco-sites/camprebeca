@@ -3,6 +3,8 @@ import { useState } from "preact/hooks";
 import Button from "../../../components/ui/Button.tsx";
 import { sendEvent } from "../../../sdk/analytics.tsx";
 import { useUI } from "../../../sdk/useUI.ts";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import ToastStyle from "deco-sites/camprebeca/components/ToastStyle.tsx";
 
 export interface Props {
   /** @description: sku name */
@@ -32,17 +34,33 @@ const useAddToCart = ({ eventParams, onAddItem }: Props) => {
     } finally {
       setLoading(false);
     }
+
+    toast.success("Produto adicionando!", {
+      position: "top-left",
+      autoClose: 3000,
+      draggable: false,
+      icon: false,
+      theme: "colored",
+      transition: Bounce,
+    });
   };
 
   return { onClick, loading, "data-deco": "add-to-cart" };
 };
 
+// deno-lint-ignore no-explicit-any
+const Toast = ToastContainer as any;
+
 export default function AddToCartButton(props: Props) {
   const btnProps = useAddToCart(props);
 
   return (
-    <Button {...btnProps} class="btn-primary">
-      Adicionar à Sacola
-    </Button>
+    <>
+      <Button {...btnProps} class="btn-primary">
+        Adicionar à Sacola
+      </Button>
+      <ToastStyle />
+      <Toast />
+    </>
   );
 }

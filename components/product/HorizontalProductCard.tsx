@@ -8,41 +8,37 @@ import { useOffer } from "deco-sites/camprebeca/sdk/useOffer.ts";
 
 interface Props {
   product: Product;
+  imageAnimate: boolean;
 }
 
 const WIDTH = 200;
 const HEIGHT = 279;
 
 export const HorizontalProductCard = (
-  { product }: Props,
+  { product, imageAnimate }: Props,
 ) => {
   const { price = 0 } = useOffer(product.offers);
   return (
-    <div class="flex gap-2 sm:gap-4 md:gap-8 relative w-full">
+    <div class="flex flex-col w-full md:flex-row mt-3 md:items-center">
       <Image
         src={product?.image?.at(0)?.url || asset("/image/loading-img.webp")}
         width={WIDTH}
         height={HEIGHT}
-        class={`bg-base-100 rounded mx-auto md:w-1/4 hover:scale-110`}
-        loading="lazy"
+        class={`rounded mx-auto md:w-1/4 ${
+          imageAnimate ? "hover:scale-110" : ""
+        }`}
       />
-      <div class="flex-auto flex flex-col p-2 gap-3 lg:gap-2">
-        <div class="flex flex-col gap-0">
-          <h2 class="truncate text-base lg:text-lg text-base-content uppercase font-normal">
-            {product.name}
-          </h2>
-          <p class="truncate text-sm lg:text-sm text-neutral">
-            {product.description}
-          </p>
-        </div>
-        <div class="flex flex-col gap-2">
-          <div
-            class={`flex flex-col gap-0 justify-center}`}
-          >
-            <div class="text-base-content lg:text-sm font-light">
-              {formatPrice(price)}
-            </div>
-          </div>
+      <div class="flex-auto flex flex-col gap-3">
+        <h2 class="truncate text-base lg:text-lg uppercase font-bold">
+          {product.name}
+        </h2>
+        <p class="truncate">
+          {product.description}
+        </p>
+        <div
+          class={`flex flex-col gap-0 justify-center}`}
+        >
+          {formatPrice(price)}
         </div>
       </div>
       <div class="flex flex-col self-center bg-secondary rounded-btn p-2">

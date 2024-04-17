@@ -3,11 +3,12 @@ import { HorizontalProductCard } from "deco-sites/camprebeca/components/product/
 
 interface Props {
   products?: Product[] | null;
+  imageAnimate?: boolean;
 }
 
 export function ErrorFallback({ error }: { error?: Error }) {
   return (
-    <div class="container bg-primary text-center items-center md:flex md:flex-row rounded p-5 mb-3 xl:max-w-5xl">
+    <div class="container bg-primary text-center items-center md:flex md:flex-row rounded p-5 mt-3 xl:max-w-5xl">
       <img
         src="/image/img-carnaval.webp"
         width={246}
@@ -27,16 +28,16 @@ export function ErrorFallback({ error }: { error?: Error }) {
 
 export function LoadingFallback() {
   return (
-    <div class="container bg-primary items-center md:flex md:flex-row rounded p-5 mb-3 xl:max-w-5xl">
+    <div class="container bg-primary items-center md:flex rounded p-5 mt-3 xl:max-w-5xl">
       <img
         src="/image/loading-img.webp"
         width={246}
         height={164}
-        class="rounded mx-auto lg:mr-8 md:w-1/4"
+        class="rounded md:w-1/4"
       />
       <svg
         aria-hidden="true"
-        class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+        class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600 mx-auto"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -56,15 +57,18 @@ export function LoadingFallback() {
 
 export default function SectionHorizontalCard({
   products,
+  imageAnimate = true,
 }: Props) {
   if (!products) return null;
 
   return (
     <div
-      class={`container bg-primary text-center md:flex md:flex-row rounded p-5 mb-3 xl:max-w-5xl`}
+      class={`flex flex-col container bg-primary text-center rounded p-5 mt-3 md:flex-row xl:max-w-6xl`}
       data-deco="view-product"
     >
-      {products.map((product) => <HorizontalProductCard product={product} />)}
+      {products.map((product) => (
+        <HorizontalProductCard product={product} imageAnimate={imageAnimate} />
+      ))}
     </div>
   );
 }

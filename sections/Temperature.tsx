@@ -17,22 +17,17 @@ export interface Props {
 
 export default function TemperatureCulture({
   temperature,
-  text,
   images = [],
 }: Props) {
   return (
     <div class="container">
-      <p>{text}</p>
       <div class="fixed bottom-4 left-4">
         <button class="bg-secondary font-bold p-12 rounded-full">
           {temperature.celsius}°C
         </button>
       </div>
-      {images.map(({ href, srcMobile, srcDesktop, alt }) => (
-        <a
-          href={href}
-          class={`overflow-hidden`}
-        >
+      <div class={"grid gap-4 md:gap-6 grid-cols-2 sm:grid-cols-2"}>
+        {images.map(({ srcMobile, srcDesktop, alt }) => (
           <Picture>
             <Source
               media="(max-width: 767px)"
@@ -43,8 +38,8 @@ export default function TemperatureCulture({
             <Source
               media="(min-width: 768px)"
               src={srcDesktop ? srcDesktop : srcMobile}
-              width={250}
-              height={250}
+              width={500}
+              height={380}
             />
             <img
               class="w-full"
@@ -55,8 +50,8 @@ export default function TemperatureCulture({
               loading="lazy"
             />
           </Picture>
-        </a>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
