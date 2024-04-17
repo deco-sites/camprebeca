@@ -7,6 +7,7 @@ import {
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import ToastStyle from "deco-sites/camprebeca/components/ToastStyle.tsx";
 import { sendEvent } from "deco-sites/camprebeca/sdk/analytics.tsx";
+import Icon from "deco-sites/camprebeca/components/ui/Icon.tsx";
 
 export const sumVotes = signal<number>(0);
 
@@ -66,7 +67,7 @@ export default function ProductVote({ productId }: Props) {
   return (
     <div>
       <button class="btn" onClick={addVote}>
-        {!hasVoted.value ? <GrayVote /> : <CheckVote />}
+        {!hasVoted.value ? <Icon id="MoodSmile" width={24} height={24} /> : <Icon id="MoodCheck" width={24} height={24} />}
       </button>
       <p class={"text-cold"}>Total de votos: {productVotes.value}</p>
       <ToastStyle />
